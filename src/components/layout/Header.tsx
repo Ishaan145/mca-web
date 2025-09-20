@@ -20,7 +20,7 @@ export const Header = () => {
     { label: "Home", path: "/" },
     { label: "Consultation Listing", path: "/consultation-listing" },
     { 
-      label: "Gov Officials Employportal", 
+      label: "Saaransh", 
       path: "https://ishaan145.github.io/Saaransh/", 
       isExternal: true 
     },
