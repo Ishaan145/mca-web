@@ -1,7 +1,22 @@
-import { Search } from "lucide-react";
+import { Search, Menu } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Link, useLocation } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 export const Header = () => {
+  const location = useLocation();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const isActive = (path: string) => location.pathname === path;
+
+  const navigationItems = [
+    { label: "Home", path: "/" },
+    { label: "Consultation Listing", path: "/consultation-listing" },
+    { label: "Document Details", path: "/document-details" },
+    { label: "Demo", path: "/demo" },
+  ];
+
   return (
     <header className="bg-background border-b">
       {/* Top header with logo and search */}
@@ -44,58 +59,109 @@ export const Header = () => {
       {/* Navigation bar */}
       <nav className="bg-gov-blue-dark">
         <div className="container mx-auto px-4">
-          <ul className="flex space-x-0">
-            <li>
-              <a href="#" className="block px-4 py-3 text-white hover:bg-gov-blue text-sm">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-3 text-white hover:bg-gov-blue text-sm">
-                About MCA
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-3 text-white hover:bg-gov-blue text-sm">
-                Acts & Rules
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-3 text-white hover:bg-gov-blue text-sm">
-                My Workspace
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-3 text-white hover:bg-gov-blue text-sm">
-                My Application
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-3 text-white hover:bg-gov-blue text-sm">
-                MCA Services
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-3 text-white bg-gov-blue text-sm font-medium">
-                Additional Services
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-3 text-white hover:bg-gov-blue text-sm">
-                Data & Reports
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-3 text-white hover:bg-gov-blue text-sm">
-                Help & FAQs
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-3 text-white hover:bg-gov-blue text-sm">
-                Contact Us
-              </a>
-            </li>
-          </ul>
+          <div className="flex items-center justify-between">
+            {/* Desktop Navigation */}
+            <ul className="hidden md:flex space-x-0">
+              {navigationItems.map((item) => (
+                <li key={item.path}>
+                  <Link
+                    to={item.path}
+                    className={`block px-4 py-3 text-white text-sm transition-colors ${
+                      isActive(item.path)
+                        ? "bg-gov-blue font-medium"
+                        : "hover:bg-gov-blue"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link
+                  to="#"
+                  className="block px-4 py-3 text-white hover:bg-gov-blue text-sm"
+                >
+                  About MCA
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="#"
+                  className="block px-4 py-3 text-white hover:bg-gov-blue text-sm"
+                >
+                  Acts & Rules
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="#"
+                  className="block px-4 py-3 text-white hover:bg-gov-blue text-sm"
+                >
+                  Help & FAQs
+                </Link>
+              </li>
+            </ul>
+
+            {/* Mobile Menu Button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="md:hidden text-white hover:bg-gov-blue"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
+          </div>
+
+          {/* Mobile Navigation */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden border-t border-gov-blue mt-2 pt-2">
+              <ul className="space-y-1">
+                {navigationItems.map((item) => (
+                  <li key={item.path}>
+                    <Link
+                      to={item.path}
+                      className={`block px-4 py-2 text-white text-sm transition-colors ${
+                        isActive(item.path)
+                          ? "bg-gov-blue font-medium"
+                          : "hover:bg-gov-blue"
+                      }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+                <li>
+                  <Link
+                    to="#"
+                    className="block px-4 py-2 text-white hover:bg-gov-blue text-sm"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    About MCA
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="#"
+                    className="block px-4 py-2 text-white hover:bg-gov-blue text-sm"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Acts & Rules
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="#"
+                    className="block px-4 py-2 text-white hover:bg-gov-blue text-sm"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Help & FAQs
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       </nav>
     </header>
