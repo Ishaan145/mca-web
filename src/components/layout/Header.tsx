@@ -6,8 +6,7 @@ import { useState } from "react";
 
 /**
  * A clean and refactored header component for the E-Consultation portal.
- * This version simplifies the navigation to core functionalities and uses a single
- * source for navigation items for better maintainability.
+ * This version includes the Saaransh logo and an external link for government officials.
  */
 export const Header = () => {
   const location = useLocation();
@@ -17,11 +16,14 @@ export const Header = () => {
   const isActive = (path: string) => location.pathname === path;
 
   // A single, consolidated list of navigation items.
-  // Simplified to only include links relevant to the E-Consultation module.
   const navigationItems = [
     { label: "Home", path: "/" },
     { label: "Consultation Listing", path: "/consultation-listing" },
-    { label: "Help & FAQs", path: "/help" },
+    { 
+      label: "Gov Officials Employportal", 
+      path: "https://ishaan145.github.io/Saaransh/", 
+      isExternal: true 
+    },
   ];
 
   return (
@@ -31,9 +33,12 @@ export const Header = () => {
         <div className="flex items-center justify-between">
           {/* Logo and Ministry Info */}
           <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 bg-gov-blue rounded-md flex items-center justify-center">
-              <div className="text-white font-bold text-xs">GOI</div>
-            </div>
+            {/* LOGO UPDATED HERE */}
+            <img 
+              src="https://raw.githubusercontent.com/Ishaan145/Saaransh/main/saaransh-app/public/logo512.png" 
+              alt="Saaransh Logo" 
+              className="w-16 h-16 rounded-md" 
+            />
             <div>
               <h1 className="text-xl font-bold text-gov-blue">MINISTRY OF</h1>
               <h1 className="text-xl font-bold text-gov-blue">CORPORATE AFFAIRS</h1>
@@ -73,17 +78,28 @@ export const Header = () => {
             {/* Desktop Navigation Menu */}
             <ul className="hidden md:flex space-x-0">
               {navigationItems.map((item) => (
-                <li key={item.path}>
-                  <Link
-                    to={item.path}
-                    className={`block px-4 py-3 text-white text-sm transition-colors ${
-                      isActive(item.path)
-                        ? "bg-gov-blue font-medium"
-                        : "hover:bg-gov-blue"
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
+                <li key={item.label}>
+                  {item.isExternal ? (
+                    <a
+                      href={item.path}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block px-4 py-3 text-white text-sm transition-colors hover:bg-gov-blue"
+                    >
+                      {item.label}
+                    </a>
+                  ) : (
+                    <Link
+                      to={item.path}
+                      className={`block px-4 py-3 text-white text-sm transition-colors ${
+                        isActive(item.path)
+                          ? "bg-gov-blue font-medium"
+                          : "hover:bg-gov-blue"
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -106,18 +122,30 @@ export const Header = () => {
             <div className="md:hidden border-t border-gov-blue mt-2 pt-2 pb-2">
               <ul className="space-y-1">
                 {navigationItems.map((item) => (
-                  <li key={item.path}>
-                    <Link
-                      to={item.path}
-                      className={`block px-4 py-2 text-white text-sm rounded-md transition-colors ${
-                        isActive(item.path)
-                          ? "bg-gov-blue font-medium"
-                          : "hover:bg-gov-blue"
-                      }`}
-                      onClick={() => setIsMobileMenuOpen(false)} // Close menu on click
-                    >
-                      {item.label}
-                    </Link>
+                  <li key={item.label}>
+                    {item.isExternal ? (
+                       <a
+                        href={item.path}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block px-4 py-2 text-white text-sm rounded-md transition-colors hover:bg-gov-blue"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {item.label}
+                      </a>
+                    ) : (
+                      <Link
+                        to={item.path}
+                        className={`block px-4 py-2 text-white text-sm rounded-md transition-colors ${
+                          isActive(item.path)
+                            ? "bg-gov-blue font-medium"
+                            : "hover:bg-gov-blue"
+                        }`}
+                        onClick={() => setIsMobileMenuOpen(false)} // Close menu on click
+                      >
+                        {item.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
